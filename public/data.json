@@ -1,0 +1,72 @@
+[
+  {
+    "russian": "писать (что-л.)",
+    "englisch": "to write sth. | wrote, written |",
+    "german": "(etw.) akk schreiben | schrieb, geschrieben |",
+    "auxiliaryVerb": "haben",
+    "declination": ["ich schreibe", "du schreibst", "er/sie/es schreibt", "wir schreiben", "ihr schreibt", "sie schreiben"]
+  },
+  {
+    "russian": "читать (что-л.)",
+    "englisch": "to read sth. | read, read |",
+    "german": "(etw.) akk lesen | las, gelesen |",
+    "auxiliaryVerb": "haben",
+    "declination": ["ich lese", "du liest", "er/sie/es liest", "wir lesen", "ihr lest", "sie lesen"]
+  },
+  {
+    "russian": "бежать",
+    "englisch": "to run | ran, run |",
+    "german": "laufen | lief, gelaufen |",
+    "auxiliaryVerb": "sein",
+    "declination": ["ich laufe", "du läufst", "er/sie/es läuft", "wir laufen", "ihr lauft", "sie laufen"]
+  },
+  {
+    "russian": "приходить",
+    "englisch": "to come | came, come |",
+    "german": "kommen | kam, gekommen |",
+    "auxiliaryVerb": "sein",
+    "declination": ["ich komme", "du kommst", "er/sie/es kommt", "wir kommen", "ihr kommt", "sie kommen"]
+  },
+  {
+    "russian": "смотреть (что-л.)",
+    "englisch": "to watch sth. | watched, watched |",
+    "german": "(etw.) akk schauen | schaute, geschaut |",
+    "auxiliaryVerb": "haben",
+    "declination": ["ich schaue", "du schaust", "er/sie/es schaut", "wir schauen", "ihr schaut", "sie schauen"]
+  },
+  {
+    "russian": "сидеть",
+    "englisch": "to sit | sat, sat |",
+    "german": "sitzen | saß, gesessen |",
+    "auxiliaryVerb": "haben",
+    "declination": ["ich sitze", "du sitzt", "er/sie/es sitzt", "wir sitzen", "ihr sitzt", "sie sitzen"]
+  },
+  {
+    "russian": "стоять",
+    "englisch": "to stand | stood, stood |",
+    "german": "stehen | stand, gestanden |",
+    "auxiliaryVerb": "haben",
+    "declination": ["ich stehe", "du stehst", "er/sie/es steht", "wir stehen", "ihr steht", "sie stehen"]
+  },
+  {
+    "russian": "работать",
+    "englisch": "to work | worked, worked |",
+    "german": "arbeiten | arbeitete, gearbeitet |",
+    "auxiliaryVerb": "haben",
+    "declination": ["ich arbeite", "du arbeitest", "er/sie/es arbeitet", "wir arbeiten", "ihr arbeitet", "sie arbeiten"]
+  },
+  {
+    "russian": "играть (что-л.)",
+    "englisch": "to play sth. | played, played |",
+    "german": "(etw.) akk spielen | spielte, gespielt |",
+    "auxiliaryVerb": "haben",
+    "declination": ["ich spiele", "du spielst", "er/sie/es spielt", "wir spielen", "ihr spielt", "sie spielen"]
+  },
+  {
+    "russian": "ехать",
+    "englisch": "to drive | drove, driven |",
+    "german": "fahren | fuhr, gefahren |",
+    "auxiliaryVerb": "sein",
+    "declination": ["ich fahre", "du fährst", "er/sie/es fährt", "wir fahren", "ihr fahrt", "sie fahren"]
+  }
+]
