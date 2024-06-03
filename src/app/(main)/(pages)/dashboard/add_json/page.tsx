@@ -1,4 +1,5 @@
-import { saveJSON_WORDS } from "@/app/api/words/route";
+
+import { saveJSON_WORDS } from "@/app/actions";
 import { auth } from "@/auth";
 import Tiptap from "@/components/editor/Editor";
 import React from "react";

@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import { CardBody, CardContainer, CardItem } from "@/components/global/3d-card";
 import Navbar from "@/components/global/Navbar";
 import WordCard from "@/components/words-components/word-card";
 import { db } from "@/lib/db";
