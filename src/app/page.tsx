@@ -1,12 +1,5 @@
-import { CardBody, CardContainer, CardItem } from "@/components/global/3d-card";
+
 import Navbar from "@/components/global/Navbar";
-import { Button } from "@/components/ui/button";
-import { ContainerScroll } from "@/components/ui/conteiner-scroll-animation";
-import { HeroParallax } from "@/components/ui/hero-parallax";
-import { InfiniteMovingCards } from "@/components/ui/infinite-cards";
-import { LampContainer, LampComponent } from "@/components/ui/lamp";
-import { clients, products } from "@/lib/constant";
-import { CheckIcon } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
