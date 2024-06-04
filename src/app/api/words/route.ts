@@ -5,10 +5,8 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const userId = req.headers.get('userId');
-    console.log(userId)
-    const body = await req.json();
-    console.log(body);
+    const userId = req.headers.get('userId');    
+    const body = await req.json();    
     const  words  = body;
     await saveJSON_WORDS( words,userId);
     
