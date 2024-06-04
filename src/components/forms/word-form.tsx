@@ -82,8 +82,7 @@ function WordForm({ name, word, onUpdate,className,fill}: Props) {
           setIsOpen(!isOpen);
         }}
       >
-        <Button variant="secondary" className={cn(
-          "text-3xl p-6 mt-5",
+        <Button variant="secondary" className={cn(          
           className
         )}>{name}</Button>
         

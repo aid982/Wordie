@@ -25,7 +25,7 @@ function WordCard({ words, saveCard, onUpdate }: Props) {
   if (words.length === 0) return;
   return (
     <div className="flex flex-col mt-32 font-bold gap-6 max-w-3xl mx-auto">
-      <div className="text-4xl flex justify-center">
+      <div className="md:text-4xl flex justify-center">
         Total :{words.length}; Current card :{num + 1}
       </div>
       <Card>
@@ -49,9 +49,9 @@ function WordCard({ words, saveCard, onUpdate }: Props) {
             )}
           </h1>
         </CardContent>
-        <CardFooter className="flex justify-center items-center gap-5">
+        <CardFooter className="flex flex-row justify-center gap-3 mt-3">
           <WordForm fill={false}
-            className="bg-green-600"
+            className="bg-green-600 md:text-2xl md:p-6 rounded-xl"
             name="Add new"
             word={words[num]}
             onUpdate={(values: z.infer<typeof EditWordSchema>) =>
@@ -59,7 +59,7 @@ function WordCard({ words, saveCard, onUpdate }: Props) {
             }
           />
           <WordForm fill={true}
-            className="bg-blue-400 rounded-xl"
+            className="bg-blue-400 rounded-xl md:text-2xl md:p-6"
             name="Edit"
             word={words[num]}
             onUpdate={(values: z.infer<typeof EditWordSchema>) =>
@@ -67,7 +67,7 @@ function WordCard({ words, saveCard, onUpdate }: Props) {
             }            
           />
           <Button 
-            className="text-3xl p-6 mt-5"
+            className="rounded-xl md:text-2xl md:p-6"
             onClick={() => {
               setIsBack(!isBack);
             }}
