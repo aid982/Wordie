@@ -24,8 +24,8 @@ function MenuOptions({}: Props) {
   items-center flex-col gap-10 py-6"
     >
       <div className="flex items-center flex-col gap-10 justify-center">
-        <Link href="" className="flex font-bold flex-row">
-          fuzzie .
+        <Link href="/" className="flex font-bold flex-row">
+          Wordie
         </Link>
         <TooltipProvider>
           {menuOptions.map((data) => (
@@ -52,47 +52,6 @@ function MenuOptions({}: Props) {
           ))}
         </TooltipProvider>
         <Separator />
-        <div
-          className="flex items-center flex-col gap-9
-        dark:bg-[#353346]/30 py-3 px-2 rounded-full h-56 overflow-scroll border-[1px]"
-        >
-          <div
-            className="relative dark:bg-[#353346]/70 p-2 rounded-full dark:border-t-[2px] border-[1px]
-          dark:border-t-[#353346]
-          "
-          >
-            <LucideMousePointerClick size={20} />
-            <div
-              className="border-l-2 h-6 border-muted-foreground/50 
-            absolute left-1/2 transform translate-x-[-50%] -bottom-[30px]
-          "
-            />
-          </div>
-          <div
-            className="relative dark:bg-[#353346]/70 p-2 rounded-full dark:border-t-[2px] border-[1px]
-          dark:border-t-[#353346]
-          "
-          >
-            <GitBranch size={20} />
-            <div
-              className="border-l-2 h-6 border-muted-foreground/50 
-            absolute left-1/2 transform translate-x-[-50%] -bottom-[30px]
-          "
-            />
-          </div>
-          <div
-            className="relative dark:bg-[#353346]/70 p-2 rounded-full dark:border-t-[2px] border-[1px]
-          dark:border-t-[#353346]
-          "
-          >
-            <Database size={20} />
-            <div
-              className="border-l-2 h-6 border-muted-foreground/50 
-            absolute left-1/2 transform translate-x-[-50%] -bottom-[30px]
-          "
-            />
-          </div>
-        </div>
       </div>
       <div className="flex items-center justify-centerflex-col gap-8">
         <ModeToggle />

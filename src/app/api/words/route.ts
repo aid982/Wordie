@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     await saveJSON_WORDS( words,userId);
     
 
-    return new NextResponse("User updated in database successfully", {
+    return new NextResponse("Words updated in database successfully", {
       status: 200,
     });
   } catch (error) {

@@ -29,8 +29,8 @@ import { Prisma } from "@prisma/client";
 import { EditWordSchema } from "@/types";
 import { cn } from "@/lib/utils";
 
-type Props = {  
-  className:string|undefined
+type Props = {
+  className: string | undefined;
   name: string;
   word: Prisma.WordsGetPayload<{
     select: {
@@ -41,21 +41,17 @@ type Props = {
       declination: true;
     };
   }>;
-  fill:boolean,
-  onUpdate:(values:z.infer<typeof EditWordSchema>)=>void
+  fill: boolean;
+  onUpdate: (values: z.infer<typeof EditWordSchema>) => void;
 };
 
-
-function WordForm({ name, word, onUpdate,className,fill}: Props) {
+function WordForm({ name, word, onUpdate, className, fill }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-
-  
-
   const form = useForm<z.infer<typeof EditWordSchema>>({
     mode: "onChange",
-    resolver: zodResolver(EditWordSchema),            
+    resolver: zodResolver(EditWordSchema),
     resetOptions: {
       keepDirtyValues: false, // user-interacted input will be retained
       keepErrors: true, // input errors will be retained with value update
@@ -63,39 +59,40 @@ function WordForm({ name, word, onUpdate,className,fill}: Props) {
   });
 
   useEffect(() => {
-    if(fill)
-    form.reset({ ...word })
-  }, [word])
+    if (fill) form.reset({ ...word });
+  }, [word]);
 
-  const handleSubmit = async (values: z.infer<typeof EditWordSchema>) => {    
+  const handleSubmit = async (values: z.infer<typeof EditWordSchema>) => {
     setIsLoading(true);
-    await onUpdate(values)
+    await onUpdate(values);
     setIsLoading(false);
     setIsOpen(false);
   };
+  const inputClassName = "text-xs md:text-3xl";
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen} >
-      <DialogTrigger    
-        
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger
         onClick={() => {
           setIsOpen(!isOpen);
         }}
       >
-        <Button variant="secondary" className={cn(          
-          className
-        )}>{name}</Button>
-        
+        <Button variant="secondary" className={cn(className)}>
+          {name}
+        </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-3xl " onAbort={() => {
+      <DialogContent
+        className=" max-w-xs sm:max-w-2xl z-[110]  md:mt-24 md:max-w-4xl overflow-y-scroll max-h-max "
+        onAbort={() => {
           setIsOpen(false);
-        }}>
+        }}
+      >
         <DialogHeader>
-          <DialogTitle>Word card</DialogTitle>
+          <DialogTitle className={inputClassName}>Word card</DialogTitle>
           <DialogDescription className="text-zinc-100">
             <Form {...form}>
               <form
-                className="flex flex-col gap-6 "
+                className="flex flex-col gap-6"
                 onSubmit={form.handleSubmit(handleSubmit)}
               >
                 <FormField
@@ -106,7 +103,7 @@ function WordForm({ name, word, onUpdate,className,fill}: Props) {
                       <FormLabel>russian</FormLabel>
                       <FormControl>
                         <Input
-                          className="text-3xl"
+                          className={inputClassName}
                           placeholder="russian"
                           {...field}
                         />
@@ -120,10 +117,10 @@ function WordForm({ name, word, onUpdate,className,fill}: Props) {
                   name="german"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>german</FormLabel>
+                      <FormLabel className={inputClassName}>german</FormLabel>
                       <FormControl>
                         <Input
-                          className="text-3xl"
+                          className={inputClassName}
                           placeholder="german"
                           {...field}
                         />
@@ -142,7 +139,7 @@ function WordForm({ name, word, onUpdate,className,fill}: Props) {
                         {
                           //@ts-ignore
                           <Input
-                            className="text-3xl"
+                            className={inputClassName}
                             placeholder="englisch"
                             {...field}
                           />
@@ -162,7 +159,7 @@ function WordForm({ name, word, onUpdate,className,fill}: Props) {
                         {
                           //@ts-ignore
                           <Input
-                            className="text-3xl"
+                            className={inputClassName}
                             placeholder="auxiliaryVerb"
                             {...field}
                           />
@@ -183,7 +180,7 @@ function WordForm({ name, word, onUpdate,className,fill}: Props) {
                           {
                             //@ts-ignore
                             <Input
-                              className="text-3xl"
+                              className={inputClassName}
                               placeholder="declination"
                               {...form.register("declination.0")}
                             />
@@ -204,7 +201,7 @@ function WordForm({ name, word, onUpdate,className,fill}: Props) {
                           {
                             //@ts-ignore
                             <Input
-                              className="text-3xl"
+                              className={inputClassName}
                               placeholder="declination"
                               {...form.register("declination.1")}
                             />
@@ -225,7 +222,7 @@ function WordForm({ name, word, onUpdate,className,fill}: Props) {
                           {
                             //@ts-ignore
                             <Input
-                              className="text-3xl"
+                              className={inputClassName}
                               placeholder="declination"
                               {...form.register("declination.2")}
                             />
@@ -245,7 +242,7 @@ function WordForm({ name, word, onUpdate,className,fill}: Props) {
                           {
                             //@ts-ignore
                             <Input
-                              className="text-3xl"
+                              className={inputClassName}
                               placeholder="declination"
                               {...form.register("declination.3")}
                             />

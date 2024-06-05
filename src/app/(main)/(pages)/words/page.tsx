@@ -11,6 +11,7 @@ export default async function Home() {
   if(!user) return;
   const cursor =0;
   const words = await db.words.findMany({    
+    skip:1,
     where: {
       userId: user?.id,
     },

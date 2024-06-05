@@ -6,16 +6,18 @@ import UserButton from "./user-button";
 import { auth } from "@/auth";
 
 async function Navbar() {
-  const session = await auth()
-  const user = (session?.user);
+  const session = await auth();
+  const user = session?.user;
+
   return (
     <header
       className="fixed right-0 left-0 top-0 py-4 px-4 
-    bg-black/40 flex items-center border-b-[1px] border-neutral-900 justify-between 
+    dark:bg-black/40 flex items-center border-b-[1px] border-neutral-900 justify-between 
     backdrop-blur-lg z-[100]"
     >
       <aside className="flex items-center gap-[2px]">
-        <p className="text-3xl font-bold">Wor</p>
+        
+        <p className="md:text-3xl font-bold">Wor</p>
         <Image
           src="/fuzzieLogo.png"
           width={15}
@@ -23,7 +25,7 @@ async function Navbar() {
           alt="logo"
           className="shadow-sm"
         ></Image>
-        <p className="text-3xl font-bold">die</p>
+        <p className="md:text-3xl font-bold">die</p>        
       </aside>
       <nav
         className="absolute left-[50%] top-[50%] transform
@@ -32,9 +34,8 @@ async function Navbar() {
       >
         <ul className="flex items-center gap-4 list-none">
           <li>
-            <Link href="#">Products</Link>
+            <Link href="#"></Link>
           </li>
-          
         </ul>
       </nav>
       <aside className="flex items-center gap-4">
@@ -47,7 +48,7 @@ async function Navbar() {
             {user ? "Dashboard" : "Get Started"}
           </span>
         </Link>
-        <UserButton user={user}/>
+        <UserButton user={user} />
         <MenuIcon className="md:hidden" />
       </aside>
     </header>

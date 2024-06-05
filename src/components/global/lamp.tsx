@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { SparklesCore } from './sparkles'
 
+
 export function LampComponent() {
   return (
     <LampContainer>
@@ -15,10 +16,10 @@ export function LampComponent() {
           duration: 0.8,
           ease: 'easeInOut',
         }}
-        className="mt-20 bg-gradient-to-br from-neutral-300 to-neutral-500 py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl"
+        className="mt-20 bg-gradient-to-br from-neutral-200 to-neutral-500 py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl"
       >
-        Plans That
-        <br /> Fit You Best
+        Start to 
+        <br /> Learn your vocabluary
       </motion.h1>
     </LampContainer>
   )
