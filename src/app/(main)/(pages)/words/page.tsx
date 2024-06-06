@@ -10,8 +10,7 @@ export default async function Home() {
   const user = session?.user;  
   if(!user) return;
   const cursor =0;
-  const words = await db.words.findMany({    
-    skip:1,
+  const words = await db.words.findMany({        
     where: {
       userId: user?.id,
     },
@@ -22,6 +21,7 @@ export default async function Home() {
       },
     },
   });   
+  
 
   const saveCard = async (id:number,userRating:number,qtyShown:number|null)=>{
     'use server'    

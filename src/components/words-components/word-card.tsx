@@ -16,7 +16,11 @@ import { z } from "zod";
 type Props = {
   words: Prisma.WordsGetPayload<{}>[];
   saveCard: (id: number, rating: number, qtyShown: number | null) => void;
-  onUpdate: (values: z.infer<typeof EditWordSchema>, id: number,newCard:boolean) => void;
+  onUpdate: (
+    values: z.infer<typeof EditWordSchema>,
+    id: number,
+    newCard: boolean
+  ) => void;
 };
 
 function WordCard({ words, saveCard, onUpdate }: Props) {
@@ -24,9 +28,20 @@ function WordCard({ words, saveCard, onUpdate }: Props) {
   const [isBack, setIsBack] = useState<boolean>(false);
   if (words.length === 0) return;
   return (
-    <div className="flex flex-col mt-20 font-bold gap-6 max-w-3xl mx-auto ">
-      <div className="md:text-4xl flex justify-center">
-        Total :{words.length}; Current card :{num + 1}
+    <div className="flex flex-col mt-20 font-bold gap-6 max-w-3xl mx-auto">
+      <div className="md:text-4xl flex justify-center gap-5">
+        <WordForm
+          fill={false}
+          className="bg-green-600 md:text-2xl md:p-6 rounded-xl "
+          name="Add new"
+          word={words[num]}
+          onUpdate={(values: z.infer<typeof EditWordSchema>) =>
+            onUpdate(values, words[num].id, true)
+          }
+        />{" "}
+        <div className=" flex">
+          Total :{words.length}; Current card :{num + 1}
+        </div>
       </div>
       <Card>
         <CardContent className="max-w-3xl bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-neutral-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full  h-auto min-h-[500px] rounded-xl p-6 border">
@@ -50,23 +65,16 @@ function WordCard({ words, saveCard, onUpdate }: Props) {
           </h1>
         </CardContent>
         <CardFooter className="flex flex-row justify-center gap-3 mt-3">
-          <WordForm fill={false}
-            className="bg-green-600 md:text-2xl md:p-6 rounded-xl "
-            name="Add new"
-            word={words[num]}
-            onUpdate={(values: z.infer<typeof EditWordSchema>) =>
-              onUpdate(values, words[num].id,true)
-            }
-          />
-          <WordForm fill={true}
+          <WordForm
+            fill={true}
             className="bg-blue-400 rounded-xl md:text-2xl md:p-6"
             name="Edit"
             word={words[num]}
             onUpdate={(values: z.infer<typeof EditWordSchema>) =>
-              onUpdate(values, words[num].id,false)
-            }            
+              onUpdate(values, words[num].id, false)
+            }
           />
-          <Button 
+          <Button
             className="rounded-xl md:text-2xl md:p-6"
             onClick={() => {
               setIsBack(!isBack);
