@@ -1,17 +1,17 @@
-import { signIn, auth, providerMap } from "@/auth";
+import { signIn } from "@/auth";
 import { SignupForm } from "@/components/forms/sign-in";
 import { AuthError } from "next-auth";
-import { redirect } from "next/navigation";
+
 
 export default async function SignInPage1({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const logIn = async (form: FormData, providerId: string) => {
+  const callbackUrl = searchParams["callbackUrl"];      
+  const logIn = async (_:any, providerId: string) => {
     "use server";
-    try {
-      const callbackUrl = searchParams["callbackUrl"];      
+    try {      
       await signIn(providerId,{
         redirect:true,
         redirectTo:  typeof callbackUrl==='string' ? callbackUrl:'/'

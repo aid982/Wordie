@@ -10,10 +10,7 @@ export function SignupForm({
 }: {
   submit: (form: FormData, providerId: string) => void;
 }) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const origin = searchParams.get("origin");
-  console.log(origin)
+  
   return (
     <div className="flex flex-col  justify-center items-center max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
       <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
@@ -30,16 +27,8 @@ export function SignupForm({
             <form
               key={provider.id}
               className="my-8"
-              action={(form) => {
-                console.log(form);
-                submit(form, provider.id);
-                if (origin) {
-                  router.push(`/${origin}`);
-                  return;
-                } else {
-                  router.push("/");                  
-                }
-                
+              action={(form) => {                
+                submit(form, provider.id);                               
               }}
             >
               <button
