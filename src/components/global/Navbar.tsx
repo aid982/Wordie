@@ -15,18 +15,19 @@ async function Navbar() {
     dark:bg-black/40 flex items-center border-b-[1px] border-neutral-900 justify-between 
     backdrop-blur-lg z-[100]"
     >
-      <aside className="flex items-center gap-[2px]">
-        
-        <p className="md:text-3xl font-bold">Wor</p>
-        <Image
-          src="/fuzzieLogo.png"
-          width={15}
-          height={15}
-          alt="logo"
-          className="shadow-sm"
-        ></Image>
-        <p className="md:text-3xl font-bold">die</p>        
-      </aside>
+      <Link href={"/"}>
+        <aside className="flex items-center gap-[2px]">
+          <p className="md:text-3xl font-bold">Wor</p>
+          <Image
+            src="/fuzzieLogo.png"
+            width={15}
+            height={15}
+            alt="logo"
+            className="shadow-sm h-5 w-5"
+          ></Image>
+          <p className="md:text-3xl font-bold">die</p>
+        </aside>
+      </Link>
       <nav
         className="absolute left-[50%] top-[50%] transform
         translate-x-[-50%] translate-y-[-50%] hidden md:block

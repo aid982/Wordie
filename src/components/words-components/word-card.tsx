@@ -43,7 +43,7 @@ function WordCard({ words, saveCard, onUpdate }: Props) {
         </div>
       </div>
       <Card>
-        <CardContent className="max-w-3xl bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-neutral-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full  h-auto  rounded-xl p-6 border">
+        <CardContent className="max-w-3xl bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-neutral-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full  md:min-h-[300px]  rounded-xl p-6 border">
           <h1 className="max-w-2xl font-bold text-3xl text-neutral-600 dark:text-white flex justify-center items-center text-center mx-auto md:text-5xl">
             {isBack ? (
               <Translation
