@@ -82,7 +82,7 @@ function WordForm({ name, word, onUpdate, className, fill }: Props) {
         </Button>
       </DialogTrigger>
       <DialogContent
-        className=" max-w-xs sm:max-w-2xl z-[110]  md:mt-24 md:max-w-4xl overflow-y-scroll max-h-max "
+        className=" max-w-xs sm:max-w-2xl z-[110]  md:mt-10 md:max-w-4xl overflow-y-scroll max-h-[calc(100%-5rem)] "
         onAbort={() => {
           setIsOpen(false);
         }}
