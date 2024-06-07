@@ -19,7 +19,7 @@ function Translation({ word, onNext }: Props) {
     <div className="gap-3">
       <p className="text-primary">{word.german}</p>
       <p className="text-blue-400 text-2xl mt-10">
-        Hilfsverb : {word.auxiliaryVerb}
+         {word.auxiliaryVerb ? ` Hilfsverb ${word.auxiliaryVerb}`:''}
       </p>
       <div className="text-3xl mt-3 text-secondary-foreground">
         {word.declination &&

@@ -1,5 +1,5 @@
 
-import { saveJSON_WORDS } from "@/app/actions";
+import { saveJSON_WORDS } from "@/actions";
 import { auth } from "@/auth";
 import LoadWords from "@/components/share/load-words";
 import { db } from "@/lib/db";
@@ -32,7 +32,7 @@ const  AddAnotherUesrWords =async  ({ params }: { params: { userId: string } }) 
         german:true
       }
     })
-    saveJSON_WORDS(words,user.id);
+   // saveJSON_WORDS(words,user.id);
     redirect(`/words`) // Navig
 
   }

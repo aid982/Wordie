@@ -260,7 +260,7 @@ function WordForm({ name, word, onUpdate, className, fill }: Props) {
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     </>
                   ) : (
-                    "Save user Settings"
+                    "Save card"
                   )}
                 </Button>
               </form>

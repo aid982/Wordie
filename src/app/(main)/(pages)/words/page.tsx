@@ -23,10 +23,12 @@ export default async function Home() {
   });   
   
 
-  const saveCard = async (id:number,userRating:number,qtyShown:number|null)=>{
+  const saveCard = async (id:number,userRating:number,prevRating:number|null,qtyShown:number|null)=>{
     'use server'    
     var qty = 1;
     if(qtyShown) qty = qtyShown+1;
+    console.log(userRating,prevRating)
+
     await db.words.update({
       where:{
         id
@@ -34,7 +36,7 @@ export default async function Home() {
       data:{
         qtyShown:qty,
         userRating,
-        rating:userRating*qty
+        rating:  prevRating ?  prevRating + userRating:userRating
       }
     })
   }
