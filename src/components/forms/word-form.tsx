@@ -32,15 +32,7 @@ import { cn } from "@/lib/utils";
 type Props = {
   className: string | undefined;
   name: string;
-  word: Prisma.WordsGetPayload<{
-    select: {
-      russian: true;
-      german: true;
-      englisch: true;
-      auxiliaryVerb: true;
-      declination: true;
-    };
-  }>;
+  word: z.infer<typeof EditWordSchema>;  
   fill: boolean;
   onUpdate: (values: z.infer<typeof EditWordSchema>) => void;
 };
@@ -53,6 +45,7 @@ function WordForm({ name, word, onUpdate, className, fill }: Props) {
     mode: "onChange",
     resolver: zodResolver(EditWordSchema),
     resetOptions: {
+      keepValues:false,
       keepDirtyValues: false, // user-interacted input will be retained
       keepErrors: true, // input errors will be retained with value update
     },
@@ -245,6 +238,27 @@ function WordForm({ name, word, onUpdate, className, fill }: Props) {
                               className={inputClassName}
                               placeholder="declination"
                               {...form.register("declination.3")}
+                            />
+                          }
+                        </FormControl>
+                        <FormMessage className="text-red-500" />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="declination"
+                    render={() => (
+                      <FormItem>
+                        <FormLabel>declination (ihr)</FormLabel>
+                        <FormControl>
+                          {
+                            //@ts-ignore
+                            <Input
+                              className={inputClassName}
+                              placeholder="declination"
+                              {...form.register("declination.4")}
                             />
                           }
                         </FormControl>

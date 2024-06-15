@@ -7,7 +7,7 @@ export const EditWordSchema = z.object({
     german: z.string().min(2, {
       message: "Username must be at least 2 characters.",
     }),
-    englisch: z.string().nullable(),
-    auxiliaryVerb: z.string().nullable(),
+    englisch: z.string().optional().nullish(),
+    auxiliaryVerb: z.string().optional().nullish(),
     declination: z.array(z.string()),
   });
