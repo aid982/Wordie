@@ -23,6 +23,7 @@ export async function saveJSON_WORDS(words: any, userId: any) {
           
       },
     });
+    console.log('Word has been already in  data base ',data)
     if (!data) {
       await db.words.create({
         data: {
