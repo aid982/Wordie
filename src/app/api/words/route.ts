@@ -8,8 +8,8 @@ export async function POST(req: Request) {
     const userId = req.headers.get('userId');    
     const body = await req.json();    
     const  words  = body;
-    await saveJSON_WORDS( words,userId);
-    
+    console.log('Current words ',words)
+    await saveJSON_WORDS( words,userId);    
 
     return new NextResponse("Words updated in database successfully", {
       status: 200,

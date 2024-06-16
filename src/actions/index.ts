@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 export async function saveJSON_WORDS(words: any, userId: any) {
   const listOfWords = words as Prisma.WordsGetPayload<{}>[];
   listOfWords.forEach(async (word) => {
+    console.log('Getting data from data base')
     const data = await db.words.findFirst({
       where: {
         userId: userId,
