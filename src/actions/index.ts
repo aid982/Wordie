@@ -1,44 +1,39 @@
 'use server'
 import { db } from "@/lib/db";
 import { Prisma } from "@prisma/client";
-
-export async function saveJSON_WORDS(words: any, userId: any) {  
+export async function saveJSON_WORDS(words: any, userId: any) {
   const listOfWords = words as Prisma.WordsGetPayload<{}>[];
-  listOfWords.forEach(async (word) => {
-    console.log('Getting data from data base')
-    try {
-
-      const data = await db.words.findFirst({
-        where: {
-          userId: userId,
-          OR: [
-            {
-              russian: {
-                contains: word.russian
-              }
-            },
-            {
-              german: {
-                contains: word.german
-              }
+  for (let index = 0; index < listOfWords.length; index++) {
+    const word = listOfWords[index];
+    const data = await db.words.findFirst({
+      where: {
+        userId: userId,
+        OR: [
+          {
+            russian: {
+              contains: word.russian
             }
+          },
+          {
+            german: {
+              contains: word.german
+            }
+          }
 
-          ]
+        ]
 
+      },
+    });
+
+    console.log('Word has been already in  data base ', data)
+    if (!data) {
+      await db.words.create({
+        data: {
+          ...word,
+          userId,
         },
       });
-
-      console.log('Word has been already in  data base ', data)
-      if (!data) {
-        await db.words.create({
-          data: {
-            ...word,
-            userId,
-          },
-        });
-      }
-    } catch (error) {
-      console.error(error)
     }
-  });
+
+  }
 }
