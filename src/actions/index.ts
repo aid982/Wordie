@@ -1,7 +1,8 @@
+'use server'
 import { db } from "@/lib/db";
 import { Prisma } from "@prisma/client";
 
-export async function saveJSON_WORDS(words: any, userId: any) {
+export async function saveJSON_WORDS(words: any, userId: any) {  
   const listOfWords = words as Prisma.WordsGetPayload<{}>[];
   listOfWords.forEach(async (word) => {
     console.log('Getting data from data base')
