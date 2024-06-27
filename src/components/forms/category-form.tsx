@@ -26,25 +26,26 @@ import { Input } from "../ui/input";
 import { Loader2 } from "lucide-react";
 import { EditCategorySchema, EditWordSchema } from "@/types";
 import { cn } from "@/lib/utils";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
 
 type Props = {
-  className: string | undefined;
-  name: string;
-  onUpdate: (values: z.infer<typeof EditCategorySchema>) => void;
+  className: string | undefined,
+  name: string,
+  categories: z.infer<typeof EditCategorySchema>[],
+  onUpdate: (values: z.infer<typeof EditCategorySchema>) => void,
 };
 
-function CategoryForm({ name, onUpdate, className }: Props) {
+function CategoryForm({ name, onUpdate,categories, className }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const form = useForm<z.infer<typeof EditCategorySchema>>({
     mode: "onChange",
     resolver: zodResolver(EditCategorySchema),
-    resetOptions: {
-      keepValues: false,
-      keepDirtyValues: false, // user-interacted input will be retained
-      keepErrors: true, // input errors will be retained with value update
-    },
+    defaultValues: {
+      name: "",
+      id: 0
+    }
   });
 
   const handleSubmit = async (values: z.infer<typeof EditCategorySchema>) => {
@@ -79,6 +80,28 @@ function CategoryForm({ name, onUpdate, className }: Props) {
 
           </DialogDescription>
         </DialogHeader>
+
+        <Select onValueChange={(value)=>{
+            
+            const curEl =categories.find((val)=>val.id.toString()===value)
+            if(curEl) form.reset({
+              id:+value,
+              name:curEl.name
+            })
+
+          }}>
+          <SelectTrigger className="">
+            <SelectValue placeholder="Select existing category" />
+          </SelectTrigger>
+          <SelectContent className="z-[120]" >
+            <SelectGroup>
+              {categories.map((category)=>(<SelectItem key={category.id} value={category.id.toString()}>{category.name}</SelectItem>))}              
+              
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+
+
         <Form {...form}>
           <form
             className="flex flex-col gap-6"
@@ -90,10 +113,9 @@ function CategoryForm({ name, onUpdate, className }: Props) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>name</FormLabel>
-                  <FormControl>
+                  <FormControl >
                     <Input
                       className={inputClassName}
-                      placeholder="name"
                       {...field}
                     />
                   </FormControl>

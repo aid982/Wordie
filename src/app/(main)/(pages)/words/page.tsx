@@ -12,13 +12,33 @@ export default async function Home() {
   const words = await db.words.findMany({
     where: {
       userId: user?.id,
-    },
+      id: 1022
+    },    
     orderBy: {
       rating: {
         sort: "asc",
         nulls: "first"
       },
     },
+    include:{
+      categories:{
+        select:{          
+          category:{
+            select:{
+              name:true,
+              id:true
+            }
+          }
+        }
+      }
+    } 
+
+  });
+
+  const categories = await db.category.findMany({
+    where: {
+      userId: user?.id,
+    }
   });
 
 
@@ -51,30 +71,97 @@ export default async function Home() {
             russian: word.russian
           }
         })
-        if (!dataFind) await db.words.create({
-          data: {
-            ...word,
-            userId: user?.id
-          }
-        })
+        if (!dataFind) {
+          let { categories_tmp, categories, ...curWord } = word
+          if(categories_tmp) {
+            await db.words.create({
+              data: {
+                ...curWord,
+                userId: user?.id,
+                categories: {
+                  createMany: {
+                    data: categories_tmp.map(e => ({ categoryId: +e }))
+                  }
+    
+                },
+                
+              },
+              include:{
+                categories:true
+              }
+            })
+
+          } else 
+          await db.words.create({
+            data: {
+              ...curWord,
+              userId: user?.id,              
+            }
+          })
+
+        }
         console.log('We already have this word ', word)
 
+
       }
-    } else
+    } else {
+
+      let { categories_tmp, categories, ...curWord } = word
+
       await db.words.update({
         where: {
           id
         },
         data: {
-          ...word
+          ...curWord,
+          categories: {
+            deleteMany: {
+
+            }
+
+          }
+        },
+        include: {
+          categories: true
+
         }
       })
+      if (categories_tmp) {
+        console.log(categories_tmp)
+
+        await db.words.update({
+          where: {
+            id
+          },
+          data: {
+            categories: {
+              createMany: {
+                data: categories_tmp.map(e => ({ categoryId: +e }))
+              }
+
+            }
+          },
+          include: {
+            categories: true
+
+          }
+        })
+
+
+
+
+      }
+
+
+
+
+    }
   }
 
 
   const onAddCategory = async (values: z.infer<typeof EditCategorySchema>) => {
     'use server'
-    console.log('Adding')
+    console.log('Adding',values)
 
     if (user.id) {
       const dataFind = await db.category.findFirst({
@@ -95,9 +182,10 @@ export default async function Home() {
         })
       } else {
         console.log('Adding category')
+        const {id:_,name} = values
         await db.category.create({
           data: {
-            ...values,
+            name,
             userId: user?.id
           }
         })
@@ -110,7 +198,8 @@ export default async function Home() {
   return (
     <div>
       <Navbar />
-      <WordCard words={words} saveCard={saveCard} onUpdate={onUpdateCard} onAddCategory={onAddCategory} />
+      <WordCard categories={categories} words={words} saveCard={saveCard} onUpdate={onUpdateCard} onAddCategory={onAddCategory} />
+
     </div>
   );
 }

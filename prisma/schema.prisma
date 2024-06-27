@@ -73,8 +73,7 @@ model CategoryWord {
   wordId     Int // relation scalar field (used in the `@relation` attribute above)
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId Int // relation scalar field (used in the `@relation` attribute above)
-  assignedAt DateTime @default(now())
-  assignedBy String
+  assignedAt DateTime @default(now())  
 
   @@id([wordId, categoryId])
 
