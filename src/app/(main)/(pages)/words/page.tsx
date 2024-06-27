@@ -11,8 +11,7 @@ export default async function Home() {
   if (!user) return;
   const words = await db.words.findMany({
     where: {
-      userId: user?.id,
-      id: 1022
+      userId: user?.id      
     },    
     orderBy: {
       rating: {
@@ -163,18 +162,13 @@ export default async function Home() {
     'use server'
     console.log('Adding',values)
 
-    if (user.id) {
-      const dataFind = await db.category.findFirst({
-        where: {
-          name: values.name
-        }
-      })
+    if (user.id) {     
 
-      if (dataFind) {
+      if (values.id) {
         console.log('We already have this category ', values.name)
         await db.category.update({
           where: {
-            id: dataFind.id
+            id: values.id
           },
           data: {
             ...values

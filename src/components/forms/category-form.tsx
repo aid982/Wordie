@@ -49,7 +49,7 @@ function CategoryForm({ name, onUpdate,categories, className }: Props) {
   });
 
   const handleSubmit = async (values: z.infer<typeof EditCategorySchema>) => {
-    console.log('sdf')
+    console.log('sdf',values)
     setIsLoading(true);
     await onUpdate(values);
     setIsLoading(false);
@@ -62,6 +62,11 @@ function CategoryForm({ name, onUpdate,categories, className }: Props) {
       <DialogTrigger asChild
         onClick={() => {
           setIsOpen(!isOpen);
+          form.reset({
+            id:0,
+            name:""
+          })
+
         }}
       >
         <Button variant="secondary" className={cn(className)}>
@@ -81,13 +86,12 @@ function CategoryForm({ name, onUpdate,categories, className }: Props) {
           </DialogDescription>
         </DialogHeader>
 
-        <Select onValueChange={(value)=>{
-            
+        <Select onValueChange={(value)=>{            
             const curEl =categories.find((val)=>val.id.toString()===value)
             if(curEl) form.reset({
               id:+value,
               name:curEl.name
-            })
+            })           
 
           }}>
           <SelectTrigger className="">
