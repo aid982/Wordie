@@ -6,38 +6,36 @@ import { Button } from "../ui/button";
 import {
   Card,
   CardContent,
-  CardFooter,  
+  CardFooter,
 } from "@/components/ui/card";
 import WordForm from "../forms/word-form";
-import { EditWordSchema } from "@/types";
+import { EditCategorySchema, EditWordSchema } from "@/types";
 import { z } from "zod";
+import CategoryForm from "../forms/category-form";
 
 type Props = {
   words: Prisma.WordsGetPayload<{}>[];
-  saveCard: (id: number, newRating: number,prevRating:number|null, qtyShown: number | null) => void;
+  saveCard: (id: number, newRating: number, prevRating: number | null, qtyShown: number | null) => void;
   onUpdate: (
     values: z.infer<typeof EditWordSchema>,
     id: number,
     newCard: boolean
   ) => void;
+  onAddCategory: (values: z.infer<typeof EditCategorySchema>,
+  ) => void;
+
+
 };
 
-function WordCard({ words, saveCard, onUpdate }: Props) {
+function WordCard({ words, saveCard, onUpdate, onAddCategory }: Props) {
   const [num, setNum] = useState<number>(0);
-  const [isBack, setIsBack] = useState<boolean>(false);  
+  const [isBack, setIsBack] = useState<boolean>(false);
   if (words.length === 0) return;
   return (
     <div className="flex flex-col mt-20 font-bold gap-6 max-w-3xl mx-auto">
       <div className="md:text-4xl flex justify-center gap-5">
-        <WordForm
-          fill={false}
-          className="bg-green-600 md:text-2xl md:p-6 rounded-xl "
-          name="Add new"
-          word={words[num]}
-          onUpdate={(values: z.infer<typeof EditWordSchema>) =>
-            onUpdate(values, words[num].id, true)
-          }
-        />{" "}
+        {" "}
+
         <div className=" flex">
           Total :{words.length}; Current card :{num + 1}
         </div>
@@ -50,7 +48,7 @@ function WordCard({ words, saveCard, onUpdate }: Props) {
                 word={words[num]}
                 onNext={(rating) => {
                   console.log(rating);
-                  saveCard(words[num].id, rating,words[num].rating, words[num].qtyShown);
+                  saveCard(words[num].id, rating, words[num].rating, words[num].qtyShown);
                   setNum(num + 1);
                   setIsBack(false);
                 }}
@@ -81,8 +79,30 @@ function WordCard({ words, saveCard, onUpdate }: Props) {
           >
             turn over
           </Button>
+
         </CardFooter>
       </Card>
+      <div className="flex flex-row justify-between p-10">
+        <WordForm
+          fill={false}
+          className="bg-green-600 md:text-2xl p-3 md:p-5 rounded-xl "
+          name="+ card"
+          word={words[num]}
+          onUpdate={(values: z.infer<typeof EditWordSchema>) =>
+            onUpdate(values, words[num].id, true)
+          }
+        />
+
+        <CategoryForm
+          className="bg-blue-500 md:text-2xl md:p-6 rounded-xl "
+          name="+ Category"
+          onUpdate={(values: z.infer<typeof EditCategorySchema>) => {
+            console.log(values);
+            onAddCategory(values)
+          }
+          }
+        />
+      </div>
     </div>
   );
 }

@@ -11,3 +11,9 @@ export const EditWordSchema = z.object({
     auxiliaryVerb: z.string().optional().nullish(),
     declination: z.array(z.string()),
   });
+
+  export const EditCategorySchema = z.object({
+    name: z.string().min(2, {
+      message: "Username must be at least 2 characters.",
+    })    
+  });

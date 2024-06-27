@@ -2,14 +2,13 @@ import { auth } from "@/auth";
 import Navbar from "@/components/global/Navbar";
 import WordCard from "@/components/words-components/word-card";
 import { db } from "@/lib/db";
-import { EditWordSchema } from "@/types";
+import { EditCategorySchema, EditWordSchema } from "@/types";
 import { z } from "zod";
 
 export default async function Home() {
   const session = await auth();
   const user = session?.user;
   if (!user) return;
-  const cursor = 0;
   const words = await db.words.findMany({
     where: {
       userId: user?.id,
@@ -48,11 +47,11 @@ export default async function Home() {
 
       if (user.id) {
         const dataFind = await db.words.findFirst({
-          where:{
-            russian:word.russian
+          where: {
+            russian: word.russian
           }
         })
-        if(!dataFind) await db.words.create({
+        if (!dataFind) await db.words.create({
           data: {
             ...word,
             userId: user?.id
@@ -72,10 +71,46 @@ export default async function Home() {
       })
   }
 
+
+  const onAddCategory = async (values: z.infer<typeof EditCategorySchema>) => {
+    'use server'
+    console.log('Adding')
+
+    if (user.id) {
+      const dataFind = await db.category.findFirst({
+        where: {
+          name: values.name
+        }
+      })
+
+      if (dataFind) {
+        console.log('We already have this category ', values.name)
+        await db.category.update({
+          where: {
+            id: dataFind.id
+          },
+          data: {
+            ...values
+          }
+        })
+      } else {
+        console.log('Adding category')
+        await db.category.create({
+          data: {
+            ...values,
+            userId: user?.id
+          }
+        })
+      }
+    }
+  }
+
+
+
   return (
     <div>
       <Navbar />
-      <WordCard words={words} saveCard={saveCard} onUpdate={onUpdateCard} />
+      <WordCard words={words} saveCard={saveCard} onUpdate={onUpdateCard} onAddCategory={onAddCategory} />
     </div>
   );
 }

@@ -2,6 +2,7 @@
 import { saveJSON_WORDS } from "@/actions";
 import { auth } from "@/auth";
 import Tiptap from "@/components/editor/Editor";
+import JsonView from "@/components/editor/JsonView";
 import React from "react";
 
 const  AddJSONPage =async  () => {
@@ -14,7 +15,7 @@ const  AddJSONPage =async  () => {
   };
   return (
     <div className="">
-      <Tiptap saveJSON={saveJSON} />
+      <JsonView/>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 "use client";
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -22,17 +22,23 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Loader2 } from "lucide-react";
-import { Prisma } from "@prisma/client";
 import { EditWordSchema } from "@/types";
 import { cn } from "@/lib/utils";
 
 type Props = {
   className: string | undefined;
   name: string;
-  word: z.infer<typeof EditWordSchema>;  
+  word: z.infer<typeof EditWordSchema>;
   fill: boolean;
   onUpdate: (values: z.infer<typeof EditWordSchema>) => void;
 };
@@ -45,7 +51,7 @@ function WordForm({ name, word, onUpdate, className, fill }: Props) {
     mode: "onChange",
     resolver: zodResolver(EditWordSchema),
     resetOptions: {
-      keepValues:false,
+      keepValues: false,
       keepDirtyValues: false, // user-interacted input will be retained
       keepErrors: true, // input errors will be retained with value update
     },
@@ -65,10 +71,11 @@ function WordForm({ name, word, onUpdate, className, fill }: Props) {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger
+      <DialogTrigger asChild
         onClick={() => {
           setIsOpen(!isOpen);
-        }}
+        }}        
+
       >
         <Button variant="secondary" className={cn(className)}>
           {name}
@@ -83,7 +90,9 @@ function WordForm({ name, word, onUpdate, className, fill }: Props) {
         <DialogHeader>
           <DialogTitle className={inputClassName}>Word card</DialogTitle>
           <DialogDescription className="text-zinc-100">
-            <Form {...form}>
+                      </DialogDescription>
+        </DialogHeader>
+        <Form {...form}>
               <form
                 className="flex flex-col gap-6"
                 onSubmit={form.handleSubmit(handleSubmit)}
@@ -141,7 +150,9 @@ function WordForm({ name, word, onUpdate, className, fill }: Props) {
                       <FormMessage className="text-red-500" />
                     </FormItem>
                   )}
-                />
+                />               
+
+
                 <FormField
                   control={form.control}
                   name="auxiliaryVerb"
@@ -279,8 +290,7 @@ function WordForm({ name, word, onUpdate, className, fill }: Props) {
                 </Button>
               </form>
             </Form>
-          </DialogDescription>
-        </DialogHeader>
+
       </DialogContent>
     </Dialog>
   );

@@ -1,78 +1,98 @@
-
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_DATABASE_URL")
 }
- 
-generator client {
-  provider = "prisma-client-js"    
-}
- 
+
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String  @map("user_id")
-  type               String
-  provider           String
-  providerAccountId  String  @map("provider_account_id")
-  refresh_token      String? @db.Text
-  access_token       String? @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String? @db.Text
-  session_state      String?
- 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([provider, providerAccountId])
   @@map("accounts")
 }
- 
+
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique @map("session_token")
   userId       String   @map("user_id")
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@map("sessions")
 }
- 
+
 model User {
   id            String    @id @default(cuid())
   name          String?
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
   image         String?
+  words         Words[]
+  categories    Category[]
   accounts      Account[]
   sessions      Session[]
-  words         Words[]
 
-  
- 
   @@map("users")
 }
- 
+
 model VerificationToken {
   identifier String
   token      String
   expires    DateTime
- 
+
   @@unique([identifier, token])
   @@map("verificationtokens")
 }
 
+model Category {
+   id            Int      @id @default(autoincrement())
+   name String
+   words CategoryWord[]
+   userId        String
+   User          User     @relation(fields: [userId], references: [id])
+}
+
+model CategoryWord {
+  word       Words     @relation(fields: [wordId], references: [id])
+  wordId     Int // relation scalar field (used in the `@relation` attribute above)
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int // relation scalar field (used in the `@relation` attribute above)
+  assignedAt DateTime @default(now())
+  assignedBy String
+
+  @@id([wordId, categoryId])
+
+}
+
+
+
 model Words {
-  id Int @id @default(autoincrement())
-  userId      String
-  russian     String
-  german      String
-  englisch    String?
-  auxiliaryVerb  String?
-  declination String[]
-  qtyShown    Int?
-  rating      Int?
-  userRating  Int?
+  userId        String
+  russian       String
+  german        String
+  qtyShown      Int?
+  rating        Int?
+  auxiliaryVerb String?
+  declination   String[]
+  userRating    Int?
+  id            Int      @id @default(autoincrement())
+  englisch      String?
+  User          User     @relation(fields: [userId], references: [id])
+  categories CategoryWord[]
 }
