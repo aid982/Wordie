@@ -1,8 +1,7 @@
 "use client";
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -24,18 +23,18 @@ import {
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Loader2 } from "lucide-react";
-import { EditCategorySchema, EditWordSchema } from "@/types";
+import { EditCategorySchema } from "@/types";
 import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
 
 type Props = {
   className: string | undefined,
   name: string,
-  categories: z.infer<typeof EditCategorySchema>[],
+  categories: z.infer<typeof EditCategorySchema>[] | undefined,
   onUpdate: (values: z.infer<typeof EditCategorySchema>) => void,
 };
 
-function CategoryForm({ name, onUpdate,categories, className }: Props) {
+function CategoryForm({ name, onUpdate, categories, className }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -49,7 +48,7 @@ function CategoryForm({ name, onUpdate,categories, className }: Props) {
   });
 
   const handleSubmit = async (values: z.infer<typeof EditCategorySchema>) => {
-    console.log('sdf',values)
+    console.log('sdf', values)
     setIsLoading(true);
     await onUpdate(values);
     setIsLoading(false);
@@ -63,8 +62,8 @@ function CategoryForm({ name, onUpdate,categories, className }: Props) {
         onClick={() => {
           setIsOpen(!isOpen);
           form.reset({
-            id:0,
-            name:""
+            id: 0,
+            name: ""
           })
 
         }}
@@ -86,24 +85,26 @@ function CategoryForm({ name, onUpdate,categories, className }: Props) {
           </DialogDescription>
         </DialogHeader>
 
-        <Select onValueChange={(value)=>{            
-            const curEl =categories.find((val)=>val.id.toString()===value)
-            if(curEl) form.reset({
-              id:+value,
-              name:curEl.name
-            })           
+        {categories && <Select onValueChange={(value) => {
+          const curEl = categories.find((val) => val.id.toString() === value)
+          if (curEl) form.reset({
+            id: +value,
+            name: curEl.name
+          })
 
-          }}>
+        }}>
           <SelectTrigger className="">
             <SelectValue placeholder="Select existing category" />
           </SelectTrigger>
           <SelectContent className="z-[120]" >
             <SelectGroup>
-              {categories.map((category)=>(<SelectItem key={category.id} value={category.id.toString()}>{category.name}</SelectItem>))}              
-              
+              {categories.map((category) => (<SelectItem key={category.id} value={category.id.toString()}>{category.name}</SelectItem>))}
+
             </SelectGroup>
           </SelectContent>
-        </Select>
+        </Select>}
+
+
 
 
         <Form {...form}>

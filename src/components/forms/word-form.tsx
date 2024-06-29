@@ -15,7 +15,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
-  FormControl,  
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
@@ -26,7 +26,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Loader2 } from "lucide-react";
 import { EditCategorySchema, EditWordSchema, WordTypeFromDB } from "@/types";
-import { cn } from "@/lib/utils";
+import { cn, getOptionsForMultiSelect } from "@/lib/utils";
 import { MultiSelect } from "../ui/multi-select";
 
 type Props = {
@@ -34,21 +34,12 @@ type Props = {
   name: string;
   word: WordTypeFromDB;
   fill: boolean;
-  categories: z.infer<typeof EditCategorySchema>[]
+  categories: z.infer<typeof EditCategorySchema>[] | undefined;
   onUpdate: (values: z.infer<typeof EditWordSchema>) => void;
 };
 
 
-
-const getOptionsForMultiSelect = (categories: z.infer<typeof EditCategorySchema>[]) => {
-  return categories.map((val) => ({
-    value: val.id.toString(),
-    label: val.name,
-  }))
-}
-
-
-function WordForm({ name, word, categories, onUpdate, className, fill }: Props) {  
+function WordForm({ name, word, categories, onUpdate, className, fill }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -65,12 +56,12 @@ function WordForm({ name, word, categories, onUpdate, className, fill }: Props) 
   useEffect(() => {
 
     if (fill) {
-      const {categories,...curWord} = word;
-      const categories_tmp = categories.map(e=>e.category.id.toString())      
-      form.reset({ ...curWord,categories_tmp})
+      const { categories, ...curWord } = word;
+      const categories_tmp = categories.map(e => e.category.id.toString())
+      form.reset({ ...curWord, categories_tmp })
 
 
-    } ;
+    };
   }, [word]);
 
   const handleSubmit = async (values: z.infer<typeof EditWordSchema>) => {
@@ -170,8 +161,7 @@ function WordForm({ name, word, categories, onUpdate, className, fill }: Props) 
 
 
 
-
-            <FormField
+            {categories && <FormField
               control={form.control}
               name="categories_tmp"
               render={({ field }) => (
@@ -192,7 +182,8 @@ function WordForm({ name, word, categories, onUpdate, className, fill }: Props) 
                   <FormMessage className="text-red-500" />
                 </FormItem>
               )}
-            />
+            />}
+
             <FormField
               control={form.control}
               name="auxiliaryVerb"
