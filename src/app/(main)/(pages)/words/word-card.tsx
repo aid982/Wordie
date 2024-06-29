@@ -71,15 +71,20 @@ function WordCard({ user }: Props) {
     mutationFn: saveCard_onUpdateCreate,
     onSuccess: () => {
       console.log('Card is saved');
+      queryClient.invalidateQueries({queryKey:['get-words', filterByCategories]});
     },
     onMutate: async (curWord) => {
       // Cancel any outgoing refetches
-      // (so they don't overwrite our optimistic update)
-      if (!curWord.newCard) {
-        await queryClient.cancelQueries({ queryKey: ['get-words'] })
+      // (so they don't overwrite our optimistic update)      
+     /* if (false||!curWord.newCard) {
+        await queryClient.cancelQueries({ queryKey: ['get-words',filterByCategories] })
+        const dat = queryClient.getQueryCache();
+        console.log(dat)
+
+        queryClient.invalidateQueries()
 
         // Snapshot the previous value
-        const previousWords = queryClient.getQueryData(['get-words'])
+        const previousWords = queryClient.getQueryData(['get-words',filterByCategories])
         console.log(Array.isArray(previousWords))
         console.log(previousWords)
 
@@ -93,10 +98,10 @@ function WordCard({ user }: Props) {
 
           };
           // Optimistically update to the new value
-          queryClient.setQueryData(['get-words'], previousWords)
+          queryClient.setQueryData(['get-words',filterByCategories], previousWords)
         }
       }
-
+*/
     },
 
   })
