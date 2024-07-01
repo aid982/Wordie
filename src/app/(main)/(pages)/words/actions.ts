@@ -1,4 +1,5 @@
 'use server'
+import { MAX_NUMBER_OF_WORDS } from "@/lib/constant";
 import { db } from "@/lib/db";
 import { EditCategorySchema, EditWordSchema } from "@/types";
 import { User } from "next-auth";
@@ -10,7 +11,7 @@ export const saveCard_onNext = async ({ id, userRating, prevRating, qtyShown }: 
   if (qtyShown) qty = qtyShown + 1;
   console.log(userRating, prevRating)
 
-  await db.words.update({
+  return await db.words.update({
     where: {
       id
     },
@@ -155,6 +156,7 @@ export const getWords = async ({ user, categoriesIds }: { user: User, categories
       userId: user?.id,
       categories
     },
+    take:MAX_NUMBER_OF_WORDS,    
     orderBy: {
       rating: {
         sort: "asc",
@@ -187,4 +189,29 @@ export const getCategories = async (user: User) => {
 
   return categories;
 
+}
+
+
+export const getQtyOfCards = async ({ user, categoriesIds }: { user: User, categoriesIds: string[] }) => {
+  let categories = undefined;
+  if (categoriesIds.length != 0) {
+    categories = {
+      some: {
+        categoryId: {
+          in: categoriesIds.map(val => +val)
+        }
+      }
+    }
+  }
+
+  const words = await db.words.aggregate({
+    where: {
+      userId: user?.id,
+      categories
+    },
+    _count:{
+      id:true
+    }
+  });
+  return words;
 }

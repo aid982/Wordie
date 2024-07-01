@@ -11,7 +11,7 @@ const  AddJSONPage =async  () => {
   if (!user) return;
   const saveJSON = async (data: String) => {
     "use server";
-    await saveJSON_WORDS(data,user.id);
+    await saveJSON_WORDS(data,user.id,null);
   };
   return (
     <div className="">

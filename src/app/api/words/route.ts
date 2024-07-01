@@ -5,10 +5,12 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const userId = req.headers.get('userId');    
+    const category = req.headers.get('category');    
+    console.log(category)
+
     const body = await req.json();    
-    const  words  = body;
-    console.log('Current words ',words)
-    await saveJSON_WORDS( words,userId);    
+    const  words  = body;    
+    await saveJSON_WORDS( words,userId,category);    
 
     return new NextResponse("Words updated in database successfully", {
       status: 200,

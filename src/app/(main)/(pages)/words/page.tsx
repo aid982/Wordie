@@ -11,7 +11,7 @@ export default async function Home() {
   return (
     <div>
       <Navbar />
-      <WordCard user={user}/>
+      <WordCard user={user}  totalWordsArrayLength={1000}/>
     </div>
   );
 }
