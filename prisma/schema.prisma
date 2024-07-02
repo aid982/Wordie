@@ -91,7 +91,7 @@ model Words {
   declination   String[]
   userRating    Int?
   id            Int      @id @default(autoincrement())
-  english      String?
+  englisch      String?
   User          User     @relation(fields: [userId], references: [id])
   categories CategoryWord[]
 }

@@ -35,7 +35,8 @@ function WordCard({ user, totalWordsArrayLength }: Props) {
     queryKey: ['get-words', filterByCategories],
     queryFn: async () => {
       console.log('ee')
-      return await getWords({ user, categoriesIds: filterByCategories })},
+      return await getWords({ user, categoriesIds: filterByCategories })
+    },
     refetchOnMount: false,
     staleTime: Infinity,
     initialPageParam: 0,
@@ -45,10 +46,10 @@ function WordCard({ user, totalWordsArrayLength }: Props) {
       }
       return lastPageParam + 1
     },
-  }) 
+  })
 
-  const curWord      = status==='success' ?  dataFromInfiniteQuery?.pages[curPage][num]:undefined;
-  const curWordArray = status==='success' ?  dataFromInfiniteQuery?.pages[curPage] : undefined;
+  const curWord = status === 'success' ? dataFromInfiniteQuery?.pages[curPage][num] : undefined;
+  const curWordArray = status === 'success' ? dataFromInfiniteQuery?.pages[curPage] : undefined;
 
 
   const { data: categories } = useQuery({
@@ -59,18 +60,15 @@ function WordCard({ user, totalWordsArrayLength }: Props) {
   })
 
   const { data: qtyOfWords } = useQuery({
-    queryKey: ['get-qty-cards',filterByCategories],
-    queryFn: async () => await getQtyOfCards({user,categoriesIds:filterByCategories}),
+    queryKey: ['get-qty-cards', filterByCategories],
+    queryFn: async () => await getQtyOfCards({ user, categoriesIds: filterByCategories }),
     refetchOnMount: false,
     staleTime: Infinity
   })
 
-  const { mutateAsync: onNextCardAsync,mutate:onNextCard } = useMutation({
+  const { mutateAsync: onNextCardAsync, mutate: onNextCard } = useMutation({
     mutationKey: ['next-card'],
-    mutationFn: saveCard_onNext,
-    onSuccess: (data) => {
-      console.log('Card is saved onNext');
-    }
+    mutationFn: saveCard_onNext
   })
 
   const { mutate: onAddCategory } = useMutation({
@@ -85,7 +83,6 @@ function WordCard({ user, totalWordsArrayLength }: Props) {
     mutationKey: ['update-card'],
     mutationFn: saveCard_onUpdateCreate,
     onSuccess: () => {
-      console.log('Card is saved');
       if (filterByCategories.length > 0) queryClient.invalidateQueries({ queryKey: ['get-words', filterByCategories] });
     },
     onMutate: async (curWord) => {
@@ -118,10 +115,18 @@ function WordCard({ user, totalWordsArrayLength }: Props) {
           }
         }
       }
-
     },
-
   })
+
+  const onChangeFilterByCategory = (value:string[]) => {
+    setNum(0);
+    setGlobalNum(0);
+    setIsBack(false);
+    setCurPage(0);
+    setfilterByCategories(value);
+    queryClient.invalidateQueries({ queryKey: ['get-words', filterByCategories] })
+
+  }
 
 
 
@@ -131,14 +136,7 @@ function WordCard({ user, totalWordsArrayLength }: Props) {
     <div className="flex flex-col mt-20 font-bold gap-6 max-w-3xl mx-auto">
       {categories && <MultiSelect
         options={getOptionsForMultiSelect(categories)}
-        onValueChange={(value) => {
-          setNum(0);
-          setGlobalNum(0);
-          setIsBack(false);
-          setCurPage(0);
-          setfilterByCategories(value);
-
-        }}
+        onValueChange={onChangeFilterByCategory}
         defaultValue={filterByCategories}
         placeholder="Filter by category"
         variant="inverted"
@@ -150,7 +148,7 @@ function WordCard({ user, totalWordsArrayLength }: Props) {
         {" "}
 
         <div className=" flex">
-          Total :{qtyOfWords?._count ? qtyOfWords?._count.id:0}; Current card :{globalNum + 1}
+          Total :{qtyOfWords?._count ? qtyOfWords?._count.id : 0}; Current card :{globalNum + 1}
         </div>
       </div>
 
@@ -166,15 +164,15 @@ function WordCard({ user, totalWordsArrayLength }: Props) {
                 {isBack ? (
                   <Translation
                     word={curWord}
-                    onNext={async (rating) => {                      
+                    onNext={async (rating) => {
                       if (num < curWordArray.length - 1) {
                         onNextCard({ id: curWord.id, userRating: rating, prevRating: curWord.rating, qtyShown: curWord.qtyShown, user: user });
                         setNum(num + 1);
-                      } else {                    
-                        await onNextCardAsync({ id: curWord.id, userRating: rating, prevRating: curWord.rating, qtyShown: curWord.qtyShown, user: user });                        
+                      } else {
+                        await onNextCardAsync({ id: curWord.id, userRating: rating, prevRating: curWord.rating, qtyShown: curWord.qtyShown, user: user });
                         await fetchNextPage();
-                        setNum(0);                                                
-                        setCurPage(curPage+1)
+                        setNum(0);
+                        setCurPage(curPage + 1)
                       }
                       setGlobalNum(globalNum + 1);
 
