@@ -1,4 +1,5 @@
 
+import { saveJSON_WORDS } from "@/actions";
 import { auth } from "@/auth";
 import LoadWords from "@/components/share/load-words";
 import { db } from "@/lib/db";
@@ -29,9 +30,9 @@ const  AddAnotherUesrWords =async  ({ params }: { params: { userId: string } }) 
         englisch:true,
         declination:true,
         german:true
-      }
+      }      
     })
-   // saveJSON_WORDS(words,user.id);
+    saveJSON_WORDS(words,user.id,null);
     redirect(`/words`) // Navig
 
   }

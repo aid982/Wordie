@@ -15,6 +15,6 @@ export const menuOptions = [
   { id:4,name: 'Schare vocapluary', Component: Category, href: '/dashboard/share' },  
 ]
 
-export const MAX_NUMBER_OF_WORDS = 10;
+export const MAX_NUMBER_OF_WORDS = 20;
 
 

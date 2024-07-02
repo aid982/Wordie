@@ -16,14 +16,14 @@ import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tansta
 import Translation from "./translation";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { getOptionsForMultiSelect } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 
 type Props = {
-  user: User,
-  totalWordsArrayLength: number
+  user: User
 };
 
-function WordCard({ user, totalWordsArrayLength }: Props) {
+function WordCard({ user }: Props) {
   const queryClient = useQueryClient();
   const [filterByCategories, setfilterByCategories] = useState<string[]>([]);
   const [num, setNum] = useState<number>(0);
@@ -52,6 +52,7 @@ function WordCard({ user, totalWordsArrayLength }: Props) {
   const curWordArray = status === 'success' ? dataFromInfiniteQuery?.pages[curPage] : undefined;
 
 
+
   const { data: categories } = useQuery({
     queryKey: ['get-categories'],
     queryFn: async () => await getCategories(user),
@@ -65,6 +66,9 @@ function WordCard({ user, totalWordsArrayLength }: Props) {
     refetchOnMount: false,
     staleTime: Infinity
   })
+
+
+  const totalQtyOfCard = qtyOfWords?._count ? qtyOfWords?._count.id : 0;
 
   const { mutateAsync: onNextCardAsync, mutate: onNextCard } = useMutation({
     mutationKey: ['next-card'],
@@ -118,7 +122,7 @@ function WordCard({ user, totalWordsArrayLength }: Props) {
     },
   })
 
-  const onChangeFilterByCategory = (value:string[]) => {
+  const onChangeFilterByCategory = (value: string[]) => {
     setNum(0);
     setGlobalNum(0);
     setIsBack(false);
@@ -128,6 +132,23 @@ function WordCard({ user, totalWordsArrayLength }: Props) {
 
   }
 
+
+  const onNextButtonClick = async (rating: number) => {
+    if (!curWordArray || !curWord) return;
+    if (num < curWordArray.length - 1) {
+      onNextCard({ id: curWord.id, userRating: rating, prevRating: curWord.rating, qtyShown: curWord.qtyShown, user: user });
+      setNum(num + 1);
+    } else {
+      await onNextCardAsync({ id: curWord.id, userRating: rating, prevRating: curWord.rating, qtyShown: curWord.qtyShown, user: user });
+      await fetchNextPage();
+      setNum(0);
+      setCurPage(curPage + 1)
+    }
+    console.log(globalNum, totalQtyOfCard)
+    if (globalNum + 1 === totalQtyOfCard) { setGlobalNum(0) }
+    else { setGlobalNum(globalNum + 1); }
+    setIsBack(false);
+  }
 
 
 
@@ -148,14 +169,21 @@ function WordCard({ user, totalWordsArrayLength }: Props) {
         {" "}
 
         <div className=" flex">
-          Total :{qtyOfWords?._count ? qtyOfWords?._count.id : 0}; Current card :{globalNum + 1}
+          Total :{totalQtyOfCard}; Current card :{globalNum + 1}
         </div>
       </div>
 
-      {status === 'pending' ? (
-        <p>Loading...</p>
+      {(status === 'pending') ? (
+        <div className="max-w-3xl mx-auto">          
+          <div className="space-y-5 max-w-3xl">                        
+            <Skeleton className="min-h-[300px]" />
+            <Skeleton className="min-h-[30px] w-[400px]" />
+          </div>
+        </div>
       ) : status === 'error' ? (
-        <p>Error: {error.message}</p>
+        <div className="max-w-3xl mx-auto">          
+          <p>Error: {error.message}</p>
+        </div>
       ) : curWord && curWordArray ?
         <>
           <Card>
@@ -164,20 +192,7 @@ function WordCard({ user, totalWordsArrayLength }: Props) {
                 {isBack ? (
                   <Translation
                     word={curWord}
-                    onNext={async (rating) => {
-                      if (num < curWordArray.length - 1) {
-                        onNextCard({ id: curWord.id, userRating: rating, prevRating: curWord.rating, qtyShown: curWord.qtyShown, user: user });
-                        setNum(num + 1);
-                      } else {
-                        await onNextCardAsync({ id: curWord.id, userRating: rating, prevRating: curWord.rating, qtyShown: curWord.qtyShown, user: user });
-                        await fetchNextPage();
-                        setNum(0);
-                        setCurPage(curPage + 1)
-                      }
-                      setGlobalNum(globalNum + 1);
-
-                      setIsBack(false);
-                    }}
+                    onNext={onNextButtonClick}
                   />
                 ) : (
                   <div className="">
