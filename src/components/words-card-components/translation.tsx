@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import React from "react";
-import { Button } from "../../../../components/ui/button";
+import { Button } from "../ui/button";
 
 type Props = {
   word: Prisma.WordsGetPayload<{

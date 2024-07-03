@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import WordForm from "@/components/forms/word-form";
 import CategoryForm from "@/components/forms/category-form";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import Translation from "./translation";
+import Translation from "../../../../components/words-card-components/translation";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { getOptionsForMultiSelect } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -143,8 +143,7 @@ function WordCard({ user }: Props) {
       await fetchNextPage();
       setNum(0);
       setCurPage(curPage + 1)
-    }
-    console.log(globalNum, totalQtyOfCard)
+    }    
     if (globalNum + 1 === totalQtyOfCard) { setGlobalNum(0) }
     else { setGlobalNum(globalNum + 1); }
     setIsBack(false);
@@ -209,8 +208,8 @@ function WordCard({ user }: Props) {
                 name="Edit"
                 word={curWord}
                 categories={categories}
-                onUpdate={async (values: z.infer<typeof EditWordSchema>) =>
-                  await onUpdateCard({ word: values, id: curWord.id, newCard: false, user })
+                onUpdate={(values: z.infer<typeof EditWordSchema>) =>
+                   onUpdateCard({ word: values, id: curWord.id, newCard: false, user })
                 }
               />
               <Button
@@ -231,8 +230,8 @@ function WordCard({ user }: Props) {
               name="+ card"
               word={curWord}
               categories={categories}
-              onUpdate={async (values: z.infer<typeof EditWordSchema>) =>
-                await onUpdateCard({ word: values, id: curWord.id, newCard: true, user })
+              onUpdate={(values: z.infer<typeof EditWordSchema>) =>
+                 onUpdateCard({ word: values, id: curWord.id, newCard: true, user })
               }
             />
 
@@ -247,11 +246,6 @@ function WordCard({ user }: Props) {
             />
           </div>
         </> : <></>}
-
-
-
-
-
     </div>
   );
 }
